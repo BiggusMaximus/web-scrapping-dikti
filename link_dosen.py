@@ -18,7 +18,7 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.headless = True
 
 
-NAME_FILE = "761_MUHAMMADIYAH_MAMUJU_link_prodi"
+NAME_FILE = "762_MUHAMMADIYAH_MANADO_link_prodi"
 PATH = "chromedriver.exe"
 
 links = []
@@ -84,7 +84,10 @@ for i in df["Link"]:
         for i in new_col:
             df_new[f"{i}"].append(0)
         for i in c.keys():
-            df_new[i].append(c[i])
+            if i not in df_new.keys():
+                pass
+            else:
+                df_new[i].append(c[i])
     else:
         for i in c.keys():
             df_new[i].append(c[i])

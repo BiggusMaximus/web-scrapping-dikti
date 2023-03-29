@@ -3,6 +3,8 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import pandas as pd
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 def unlist(var):
     for i in var:
@@ -19,8 +21,8 @@ def evaluate(jenjang, status):
             
 
 PATH = "/chromedriver.exe"
-URL = "https://pddikti.kemdikbud.go.id/data_pt/MzIyQjA3MjEtRjNCNy00M0U2LTlBRDYtMjU5NEE3MEM1RkNG"
-NAME = "761_MUHAMMADIYAH_MAMUJU"
+URL = "https://pddikti.kemdikbud.go.id/data_pt/Q0JCODYzMjQtQzU5OS00MzE0LUFDQjAtMjRFMzg3RjIxRkY0"
+NAME = "762_MUHAMMADIYAH_MANADO"
 
 df = {
     "Prodi" : [],
@@ -31,8 +33,9 @@ df = {
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
 driver.get(URL)
-
-tbody = driver.find_element(By.XPATH, '//*[@id="t01"]/tbody')
+wait = WebDriverWait(driver, 20)
+print("!! STEP")
+tbody = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="t01"]/tbody')))
 
 data = []
 for tr in tbody.find_elements(By.XPATH, '//tr'):
