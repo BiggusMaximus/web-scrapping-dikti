@@ -73,7 +73,7 @@ for i in df["Link"]:
         for i in new_col:
             df_new[f"{i}"].append(0)
         for i in c.keys():
-            if i not in df.keys():
+            if i not in df_new.keys():
                 pass
             else:
                 df_new[i].append(c[i])
