@@ -12,6 +12,7 @@ from selenium.webdriver.chrome.options import Options
 chrome_options = Options()
 chrome_options.page_load_strategy = 'normal'
 chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+chrome_options.add_experimental_option('extensionLoadTimeout', 60000)
 chrome_options.add_argument('disable-infobars')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.headless = True
