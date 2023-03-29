@@ -8,14 +8,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 import collections
 
-NAME_FILE = "ITB_link_prodi.csv"
+NAME_FILE = "761_MUHAMMADIYAH_MAMUJU_link_prodi"
 PATH = "chromedriver.exe"
 links = []
 def unlist(var):
     for i in var:
         return i
     
-df = pd.read_csv(NAME_FILE)
+df = pd.read_csv(NAME_FILE + ".csv")
 df_new = {
     "Prodi": [],
     "Jenjang": [],
@@ -49,7 +49,8 @@ for i in df["Link"]:
         start = time.time()
         driver = webdriver.Chrome(ChromeDriverManager().install())
         driver.get(j)
-        wait = WebDriverWait(driver, 5)
+        
+        wait = WebDriverWait(driver, 20)
         print("!! STEP")
         jabatan_fungsional = wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="root"]/div/main/div/section/div/div[1]/div/div/table/tbody/tr[7]/td[3]')))
         # jabatan_fungsional = driver.find_elements(By.XPATH, '//*[@id="root"]/div/main/div/section/div/div[1]/div/div/table/tbody/tr[7]/td[3]')
@@ -57,21 +58,29 @@ for i in df["Link"]:
         t.append(jabatan_fungsional.text)
         end = time.time()
         print(end-start)
+        driver.quit()
     
     c = collections.Counter(t)
-    new_col = [x for x in c.keys() if x not in df_new.keys()]
+    new_col = [x for x in df_new.keys() if x not in c.keys()]
+    new_col.remove("Prodi")
+    new_col.remove("Jenjang")
     print(new_col)
 
-    for i in c.keys():
-        if len(new_col) != 0:
-            df_new[f"{unlist(new_col)}"] = [c[unlist(new_col)]]
-        else:
-            df_new[i].append(c[i])
- 
     df_new["Prodi"].append(df["Prodi"][count])
     df_new["Jenjang"].append(df["Jenjang"][count])
+
+    if len(new_col) != 0:
+        for i in new_col:
+            df_new[f"{i}"].append(0)
+        for i in c.keys():
+            df_new[i].append(c[i])
+    else:
+        for i in c.keys():
+            df_new[i].append(c[i])
+
     print(df_new)
     count += 1
+    df_new_csv = pd.DataFrame(df_new)
+    df_new_csv.to_csv(NAME_FILE + "_counted_" + ".csv", index=False)
 
-df_new.to_csv("a.csv", index=False)
     
