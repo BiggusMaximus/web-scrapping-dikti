@@ -7,9 +7,19 @@ import time
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support import expected_conditions as EC
 import collections
+from selenium.webdriver.chrome.options import Options
+
+chrome_options = Options()
+chrome_options.page_load_strategy = 'normal'
+chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
+chrome_options.add_argument('disable-infobars')
+chrome_options.add_argument('--no-sandbox')
+chrome_options.headless = True
+
 
 NAME_FILE = "762_MUHAMMADIYAH_MANADO_link_prodi"
 PATH = "chromedriver.exe"
+
 links = []
 def unlist(var):
     for i in var:
